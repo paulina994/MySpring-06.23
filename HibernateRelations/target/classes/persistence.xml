@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding = "UFT-8"?>
+<persistence xmnls="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence>
+        <!-- Define persistence unit -->
+        <persistence-unit name="relations">
+            <properties>>
+                <!-- JPA 3.x -->
+                <property name="jakarta.persistence.jdbc.driver"
+                          value="com.mysql.cj.jdbc.Driver"/>
+                <property name="jakarta.persistence.jdbc.url"
+                          value="jdbc:mysql://localhost:3306/relations?createDatabaseIfNotExist=true"/>
+                <property name="javax.persistence.jdbc.user"
+                          value="root"/>
+                <property name="javax.persistence.jdbc.password"
+                          value="paulina9"/>
+                <property name = "hibernate.hbm2ddl.auto"
+                          value ="update" />
+                <property name="hibernate.dialect"
+                          value="org.hibernate.dialect.MySQL8Dialect"/>
+                <property name="hibernate.show_sql"
+                          value="true"/>
+                <property name="hibernate.format_sql"
+                          value="true"/>
+            </properties>
+        </persistence-unit>
+    </persistence>
+</persistence>
