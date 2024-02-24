@@ -1,6 +1,6 @@
 package com.example.jsonex.service.impl;
 
-import com.example.jsonex.model.DTO.CategorySeedDto;
+import com.example.jsonex.model.dto.CategorySeedDto;
 import com.example.jsonex.model.entity.Category;
 import com.example.jsonex.repository.CategoryRepository;
 import com.example.jsonex.service.CategoryService;
@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.example.jsonex.constants.GlobalConstants.RESOURCES_FILE_PATH;
+import static com.example.jsonex.constants.GlobalConstants.RESOURCE_FILE_PATH;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
             return;
         }
 
-        String fileContent = Files.readString(Path.of(RESOURCES_FILE_PATH + CATEGORIES_FILE_NAME));
+        String fileContent = Files.readString(Path.of(RESOURCE_FILE_PATH + CATEGORIES_FILE_NAME));
 
         CategorySeedDto[] categorySeedDtos = gson
                 .fromJson(fileContent, CategorySeedDto[].class);
@@ -59,12 +59,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     }
 
-    @Override
+
     public Set<Category> findRandomCategories() {
 
         Set<Category> categorySet = new HashSet<>();
 
-        int categoryCount = ThreadLocalRandom.current().nextInt(1, 3);
+        int categoryCount = ThreadLocalRandom.current().nextInt(1, 4);
 
         long totalCategoriesCount = categoryRepository.count();
 

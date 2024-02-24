@@ -1,9 +1,8 @@
 package com.example.jsonex.service.impl;
 
-import com.example.jsonex.model.DTO.UserSeedDto;
-import com.example.jsonex.model.DTO.UserSoldDto;
-import com.example.jsonex.model.DTO.UsersAndProductsDto;
-import com.example.jsonex.model.DTO.UsersSoldProductsWithAgeDto;
+
+import com.example.jsonex.model.dto.UserSeedDto;
+import com.example.jsonex.model.dto.UserSoldDto;
 import com.example.jsonex.model.entity.User;
 import com.example.jsonex.repository.UserRepository;
 import com.example.jsonex.service.UserService;
@@ -20,7 +19,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-import static com.example.jsonex.constants.GlobalConstants.RESOURCES_FILE_PATH;
+import static com.example.jsonex.constants.GlobalConstants.RESOURCE_FILE_PATH;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -60,14 +60,12 @@ public class UserServiceImpl implements UserService {
 
         if (userRepository.count() == 0) {
             Arrays.stream(gson.fromJson(
-                            Files.readString(Path.of(RESOURCES_FILE_PATH + USERS_FILE_NAME)),
+                            Files.readString(Path.of(RESOURCE_FILE_PATH + USERS_FILE_NAME)),
                             UserSeedDto[].class))
                     .filter(validationUtil::isValid)
                     .map(userSeedDto -> modelMapper.map(userSeedDto, User.class))
                     .forEach(userRepository::save);
         }
-
-
 
 
     }
@@ -77,34 +75,19 @@ public class UserServiceImpl implements UserService {
         long randomId = ThreadLocalRandom
                 .current().nextLong(1, userRepository.count() + 1);
 
-        return userRepository.findById(randomId).orElse(null);
+        return userRepository.findById(randomId)
+                .orElse(null);
     }
 
     @Override
     public List<UserSoldDto> findAllUsersWithMoreThanOneSoldProducts() {
-        return userRepository.findAllUsersWithMoreThanOneSoldProductOrderByLastNameThenByFirstName()
+        return userRepository
+                .findUsersWithMoreThanOneSoldProductOrderByLastNameThanFirstName()
                 .stream()
-                .map(user -> modelMapper.map(user, UserSoldDto.class))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public UsersAndProductsDto getUsersAndProducts() {
-        List<User> users = userRepository.findAllUsersWithSoldProductsOrderByCountAndLastName().orElse(null);
-
-        List<UsersSoldProductsWithAgeDto> usersSoldProductsWithAgeDtoList = users
-                .stream()
-                .map(u -> {
-                    UsersSoldProductsWithAgeDto user = modelMapper.map(u, UsersSoldProductsWithAgeDto.class);
-
-                    user.getProducts().setCount(u.getSoldProducts().size());
-
-                    return user;
-                })
+                .map(user ->
+                    modelMapper.map(user, UserSoldDto.class))
                 .collect(Collectors.toList());
 
-        UsersAndProductsDto usersAndProductsDto = new UsersAndProductsDto(usersSoldProductsWithAgeDtoList);
-
-        return usersAndProductsDto;
     }
 }
+

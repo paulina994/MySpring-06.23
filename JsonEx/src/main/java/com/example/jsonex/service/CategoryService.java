@@ -9,4 +9,5 @@ public interface CategoryService {
     void seedCategories() throws IOException;
 
     Set<Category> findRandomCategories();
+
 }

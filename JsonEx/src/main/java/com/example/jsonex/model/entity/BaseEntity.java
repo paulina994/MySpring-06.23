@@ -1,5 +1,6 @@
 package com.example.jsonex.model.entity;
 
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +13,8 @@ public abstract class BaseEntity {
     public BaseEntity() {
     }
 
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
